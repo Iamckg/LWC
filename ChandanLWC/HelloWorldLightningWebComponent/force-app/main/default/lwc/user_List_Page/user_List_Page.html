@@ -1,0 +1,62 @@
+<template>
+    <lightning-card title="Users List">
+        <lightning-layout multiple-rows="true">
+            <!-- Search box by Name, Email, and Mobile Number -->
+            <lightning-layout-item>
+                <lightning-input
+                    type="text"
+                    label="Search by Name, Email, or Mobile Number" placeholder="type here..."
+                    onchange={handleSearchChange}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item>&nbsp;</lightning-layout-item>
+            <!-- Filter by User Type -->
+            <lightning-layout-item>
+                <lightning-combobox
+                    label="Filter by User Type"
+                    options={userTypeOptions}
+                    value={selectedUserType}
+                    onchange={handleUserTypeChange}>
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item>&nbsp;</lightning-layout-item>
+            <!-- Filter by Status (Active/Inactive) -->
+            <lightning-layout-item>
+                <lightning-combobox
+                    label="Filter by Status"
+                    options={statusOptions}
+                    value={selectedStatus}
+                    onchange={handleStatusChange}>
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item>&nbsp;</lightning-layout-item>
+            <!-- Filter by Registration Date Range -->
+            <lightning-layout-item>
+                <lightning-input type="date" label="From" onchange={handleFromDateChange}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item>&nbsp;</lightning-layout-item>
+            <lightning-layout-item>
+                <lightning-input type="date" label="To" onchange={handleToDateChange}></lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+        <!-- New button -->
+        <div class="slds-p-around_medium">
+            <lightning-button label="New" onclick={handleNew} variant="brand"></lightning-button>
+        </div>
+        <!-- User records datatable -->
+        <template if:true={filteredUsers}>
+            <lightning-datatable
+                data={filteredUsers}
+                columns={columnsWithEditButton}
+                key-field="Id"
+                onrowaction={handleRowAction}>
+            </lightning-datatable>
+        </template>
+        <template if:true={error}>
+            <div class="slds-p-around_medium">
+                <p>Error fetching User data</p>
+                <p>{error}</p>
+            </div>
+        </template>
+    </lightning-card>
+</template>
